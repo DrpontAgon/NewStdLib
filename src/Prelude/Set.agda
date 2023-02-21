@@ -64,11 +64,6 @@ exfalso ()
 exfalso_irrelevant : ∀ {i} {A : Set i} → .⊥ → A
 exfalso_irrelevant ()
 
-record ⊤ : Set where
-  inductive
-  instance constructor trivial
-open ⊤ public
-
 ¬_ : ∀{i}(A : Set i) → Set i
 ¬ A = A → ⊥
 

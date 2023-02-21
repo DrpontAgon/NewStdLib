@@ -4,6 +4,7 @@ module Bool.Base where
 
 open import Agda.Builtin.Bool
   renaming (Bool to 𝟚)
+  public
 
 infixr 6 _∧_
 infixr 5 _∨_ _xor_
