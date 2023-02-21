@@ -2,6 +2,8 @@
 
 module Dummy where
 
+g : {A : Set} → (A → A) → A → A
+g f a = f(a)
 -- open import Bool
 -- open import Prelude
 -- open import Equality

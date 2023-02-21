@@ -1,6 +1,6 @@
-{-# OPTIONS --without-K --safe #-}
+{-# OPTIONS --safe #-}
 
-module Bool.Set where
+module Bool.Base where
 
 open import Agda.Builtin.Bool
   renaming (Bool to 𝟚)
@@ -29,7 +29,6 @@ infixr 4.9 _⊃_
 _⊃_ : 𝟚 → 𝟚 → 𝟚
 false ⊃ y = true
 true ⊃ y = y
-
 {-
 T : 𝟚 → Set
 T true  = ⊤
