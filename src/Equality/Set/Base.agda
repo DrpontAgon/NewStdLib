@@ -9,6 +9,7 @@ module Equality.Set.Base where
 -- open import Reflexive
 open import Prelude.Set
 open import Agda.Primitive
+open import Empty.Base
 
 infix 0 _≡_ _≢_
 

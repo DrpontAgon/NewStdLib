@@ -55,3 +55,15 @@ record Cancellative {i}{A : Set i}(_⊕_ : A → A → A) : Set i where
     -- TODO: Split in two
     leftc  : ∀ x y z → (x ⊕ y) ≡ (x ⊕ z) → y ≡ z
     rightc : ∀ x y z → (y ⊕ x) ≡ (z ⊕ x) → y ≡ z
+
+open Medial public
+open Semimedial public
+open Autodistributive public
+open Associative public
+open Commutative public
+open Idempotent public
+open Unipotent public
+open Zeropotent public
+open Flexible public
+open Unital public
+open Cancellative public
