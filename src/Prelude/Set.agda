@@ -56,33 +56,6 @@ syntax Σ X (λ x → Y) = ∃ x ∈ X ∣ Y
 _↔_ : ∀{i j}(A : Set i)(B : Set j) → Set (i ⊔ j)
 A ↔ B = (A → B) × (B → A)
 
-data ⊥ : Set where
-
-exfalso : ∀{i}{A : Set i} → ⊥ → A
-exfalso ()
-
-exfalso_irrelevant : ∀ {i} {A : Set i} → .⊥ → A
-exfalso_irrelevant ()
-
-¬_ : ∀{i}(A : Set i) → Set i
-¬ A = A → ⊥
-
-¬ᵢ_ : ∀{ℓ}(A : Set ℓ) → Set ℓ
-¬ᵢ A = ⦃ i : A ⦄ → ⊥
-
-infixl 30 ¬_
-infixl 30 ¬ᵢ_
-
-instance
-  ¬ᵢ⊥ : ¬ᵢ ⊥
-  ¬ᵢ⊥ ⦃ i ⦄ = i
-
-weaken : ∀{i} → {A : Set i} → A → ¬ ¬ A
-weaken a f = f a
-
-contradiction : ∀{i}{j}{A : Set i}{B : Set j} → A → ¬ A → B
-contradiction a ¬a = exfalso (¬a a)
-
 {-
 impossible : ∀{i} → {A : Set i} → ¬ ¬ A → A
 impossible f = ?

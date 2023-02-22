@@ -3,6 +3,7 @@
 module Relation.Decidable.Set where
 
 open import Agda.Builtin.Bool
+open import Empty.Base
 open import Prelude.Set
 
 private
