@@ -2,7 +2,7 @@
 
 module Empty.Properties where
 
-open import Unit.Base using (⊤ ; trivial)
+open import Unit.Base.Type
 open import Empty.Base
 open import Relation.Decidable.Set
 
