@@ -3,7 +3,7 @@
 module Natural.Relations.Transitive where
 
 open import Natural.Base
-open import Prelude.Set using (trivial)
+open import Unit.Base
 open import Relation.Transitive.Set
 
 instance

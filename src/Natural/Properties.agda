@@ -3,8 +3,11 @@
 module Natural.Properties where
 
 open import Natural.Base
+open import Natural.Relations
 open import Equality.Set
 open import Prelude.Set
+open import Unit.Base
+open import Empty.Base
 open import Relation.Decidable.Set
 open import Relation.Reflexive.Set
 open import Relation.Transitive.Set
@@ -189,23 +192,6 @@ instance
 
 {-
 instance
-  ≤Refl : Reflexive _≤_
-  ≤Refl = record { reflexive = r } where
-    r : {a : ℕ} → a ≤ a
-    r {zero} = le
-    r {suc a} = leSuc r
-
-  ≥Refl : Reflexive _≥_
-  ≥Refl = record { reflexive = r } where
-    r : {a : ℕ} → a ≥ a
-    r {zero} = ge
-    r {suc a} = geSuc r
-  
-  ≡ℕRefl : Reflexive _≡ℕ_
-  ≡ℕRefl = record { reflexive = r } where
-    r : {a : ℕ} → a ≡ℕ a
-    r {zero} = eqZero
-    r {suc a} = eqSuc r
 
   <Irrefl : Irreflexive _<_
   <Irrefl = record { irreflexive = r } where
