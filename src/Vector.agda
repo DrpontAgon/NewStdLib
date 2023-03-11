@@ -1,58 +1,59 @@
 {-# OPTIONS --prop --rewriting #-}
 
-open import Prelude
-open import Transitive
-open import Fin
+open import Prelude.Set
+-- open import Transitive
+-- open import Fin
 open import Natural
-open import Bool
-open import FunctorApplicativeSelectiveMonad
-open import Equality
-open import Symmetric
+open import Equality.Set.Base
+open import Equality.Set.Relations
+open import Relation.Symmetric.Set
+-- open import Bool
+-- open import FunctorApplicativeSelectiveMonad
+-- open import Equality
+-- open import Symmetric
 
 module Vector where
 
-infixr 5 _::_
+infixr 5 _∷_
 infixr 5 _++_
 
-data Vector {i} (A : Set i) : ℕ -> Set i where
-  VNil   : Vector A 0 
-  VCons  : {n : ℕ} -> A -> Vector A n -> Vector A (suc n)
+data Vector {i} (A : Set i) : ℕ → Set i where
+  []   : Vector A 0 
+  _∷_  : {n : ℕ} → A → Vector A n → Vector A (suc n)
 
-pattern [] = VNil
-pattern _::_ x xs = VCons x xs
+head : ∀{i}{A : Set i} → {n : ℕ} → Vector A (suc n) → A
+head (x ∷ _) = x
 
-head : ∀{i}{A : Set i} -> {n : ℕ} -> Vector A (suc n) -> A
-head (x :: _) = x
+tail : ∀{i}{A : Set i} → {n : ℕ} → Vector A (suc n) → Vector A n
+tail (_ ∷ xs) = xs
 
-tail : ∀{i}{A : Set i} -> {n : ℕ} -> Vector A (suc n) -> Vector A n
-tail (_ :: xs) = xs
+init : ∀{i}{A : Set i} → {n : ℕ} → Vector A (suc n) → Vector A n
+init {n = 0}     (x ∷ []) = []
+init {n = suc _} (x ∷ ys) = x ∷ init ys
 
-init : ∀{i}{A : Set i} -> {n : ℕ} -> Vector A (suc n) -> Vector A n
-init {n = 0}     (x :: []) = []
-init {n = suc _} (x :: ys) = x :: init ys
+last : ∀{i}{A : Set i} → {n : ℕ} → Vector A (suc n) → A
+last {n = zero} (x ∷ []) = x
+last {n = suc n} (_ ∷ xs) = last xs
 
-last : ∀{i}{A : Set i} -> {n : ℕ} -> Vector A (suc n) -> A
-last {n = zero} (x :: []) = x
-last {n = suc n} (_ :: xs) = last xs
+_++_ : ∀{i}{A : Set i}{n m : ℕ} → Vector A n → Vector A m → Vector A (n + m)
+[]       ++ y = y
+(x ∷ xs) ++ y = x ∷ xs ++ y
 
-_++_ : ∀{i}{A : Set i}{n m : ℕ} -> Vector A n -> Vector A m -> Vector A (n + m)
-[]        ++ y = y
-(x :: xs) ++ y = x :: xs ++ y
-
-_!!_ : ∀{i}{A : Set i} -> {n : ℕ} -> Vector A (suc n) -> Fin {i} (suc n) -> A
-(x :: xs) !! zero  = x
-(x :: y :: xs) !! (suc i) = (y :: xs) !! i
-
+{-
+_!!_ : ∀{i}{A : Set i} → {n : ℕ} → Vector A (suc n) → Fin {i} (suc n) → A
+(x ∷ xs) !! zero  = x
+(x ∷ y ∷ xs) !! (suc i) = (y :: xs) !! i
+-}
 replicate : ∀{i}{A : Set i}(n : ℕ) → A → Vector A n
 replicate zero a = []
-replicate (suc n) a = a :: replicate n a
+replicate (suc n) a = a ∷ replicate n a
 
-reverse : ∀{i}{A : Set i} -> {n : ℕ} -> Vector A n -> Vector A n
-reverse {i} {A} {n} = reverseAcc {k = 0} {m = n} [] where
-  reverseAcc : ∀{B}{k m} -> Vector B k -> Vector B m -> Vector B (k + m)
-  reverseAcc {B} {k} {0} acc [] = substₛ (Vector B) (idr+ {k}) acc
-  reverseAcc {B} {k} {(suc m)} acc (x :: xs) = substₛ (Vector B) (sym (sucr+ {k})) ((reverseAcc {B} {suc k} {m} (x :: acc) xs))
-
+reverse : ∀{i}{A : Set i} → {n : ℕ} → Vector A n → Vector A n
+reverse = reverseAcc [] where
+  reverseAcc : ∀{j}{B : Set j}{k m} → Vector B k → Vector B m → Vector B (k + m)
+  reverseAcc {B = B} {k} {0} acc [] = subst (Vector B) (idr+ ⁻¹) acc
+  reverseAcc {B = B} {k} {(suc m)} acc (x ∷ xs) = subst (Vector B) (sucr+ ⁻¹) (reverseAcc (x ∷ acc) xs)
+{-
 intersperse : ∀{i}{A : Set i} → {n : ℕ} → A → Vector A n → Vector A (n + n - 1)
 intersperse {i} {A} {zero} e [] = []
 intersperse {i} {A} {suc zero} e (x :: []) = x :: []
@@ -102,3 +103,4 @@ instance
         → (map f ∘ map g) x ≡ map (f ∘ g) x
       compF {A} {B} {C} {.0} {f} {g} [] = refl
       compF {A} {B} {C} {.(suc _)} {f} {g} (x :: xs) = cong (f (g x) ::_) (compF xs)
+-}      
