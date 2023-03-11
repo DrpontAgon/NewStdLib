@@ -4,6 +4,12 @@ module Prelude.Set where
 
 open import Agda.Primitive public
 
+{-
+level : ℕ → Level
+level 0 = lzero
+level (suc n) = lsuc (level n)
+-}
+
 the : ∀{i} → (A : Set i) → A → A
 the _ x = x
 
